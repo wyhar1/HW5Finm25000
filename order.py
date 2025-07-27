@@ -13,3 +13,11 @@ class Order:
     type:      str        # "market", "limit", or "stop"
     price:     float = None   # limit/stop price, None for market orders
     timestamp: datetime = None  # when the order was created
+
+class risk_params:
+    """
+    General risk parameters.
+    """
+    max_pos:        int = None    # max number of shares to be held
+    order_size:     int = 50000        # number of shares to buy/sell at each order
+    order_type:      str = "market" # "buy" or "sell"
