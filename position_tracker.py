@@ -46,7 +46,6 @@ class PositionTracker:
                 unrealized_pnl += pos * price
 
         total_pnl = realized_pnl + unrealized_pnl
-
         return {
             "realized_pnl":    realized_pnl,
             "unrealized_pnl":  unrealized_pnl,
