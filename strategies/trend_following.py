@@ -5,6 +5,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import pandas as pd
 from order import Order
+from order import risk_params
 from oms import OrderManagementSystem
 from order_book import LimitOrderBook
 from position_tracker import PositionTracker
