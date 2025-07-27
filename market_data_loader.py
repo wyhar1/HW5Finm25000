@@ -34,7 +34,6 @@ class MarketDataLoader:
         data = self._rename_and_tx(data)
         self._period_cache[symbol] = data
         return data
-    
     def get_history(self, symbol, start=None, end=None): 
         if start or end:
             data = yf.download(symbol, start=start, end=end, interval=self.interval, auto_adjust=True)
@@ -89,10 +88,11 @@ class MarketDataLoader:
     def get_option_chain(self, symbol, expiry=None):
         ticker = yf.Ticker(symbol)
         if expiry: 
-            option_chain = ticker.option_chian(expiry)
+            option_chain = ticker.option_chain(expiry)
         else:
             expiration_dates = ticker.options
             option_chain = ticker.option_chain(expiration_dates[0])
         call_chain = option_chain.calls
         put_chain = option_chain.puts
         return call_chain, put_chain
+
