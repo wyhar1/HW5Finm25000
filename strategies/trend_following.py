@@ -78,9 +78,16 @@ def run_backtest(symbol, market_loader, risk_params, short_win=5, long_win=25):
         ack = oms.new_order(order)
         book.add_order(counter_order)
         reports = book.add_order(order)
+        ###CHAT GPT SUGGESTED, CORRECTING COUNTER ORDERS GETTING PROCESSED IN TRACKER###
+        counter_order.id = f"FAKE-{uuid.uuid4()}"
+        ##########
 
         
         for rpt in reports:
+            #PART 2 OF CORRECTING COUNTER ORDERS
+            if str(rpt["order_id"]).startswith("FAKE"):
+                continue 
+            #####
             tracker.update(rpt)
             trades_list.append(rpt)
     last_price = history["last_price"].squeeze() 
