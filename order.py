@@ -14,6 +14,7 @@ class Order:
     price:     float = None   # limit/stop price, None for market orders
     timestamp: datetime = None  # when the order was created
 
+@dataclass
 class risk_params:
     """
     General risk parameters.
