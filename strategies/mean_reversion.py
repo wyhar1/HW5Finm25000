@@ -1,11 +1,19 @@
 # Mean reversion
-
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+
 import pandas as pd
 import uuid
+from datetime import datetime
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
 from order import Order
+from order import risk_params
 from oms import OrderManagementSystem
 from order_book import LimitOrderBook
 from position_tracker import PositionTracker
@@ -103,3 +111,8 @@ def run_backtest(symbol, market_loader, risk_params, bollinger_win=20, num_std=2
     }
 
     return signals_df, trades_list, metrics_dict
+
+rp = risk_params()
+loader = MarketDataLoader(interval="1h", period="1y")
+signals, trades, metrics = run_backtest("CMPS", loader, rp)
+print(metrics)
