@@ -1,12 +1,20 @@
 # Arbitrage
-import pandas as pd
 import numpy as np
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+import pandas as pd
 import uuid
 from datetime import datetime
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from order import Order
+from order import risk_params
 from oms import OrderManagementSystem
 from order_book import LimitOrderBook
 from position_tracker import PositionTracker
+from market_data_loader import MarketDataLoader
 
 def run_backtest(symbol1, symbol2, loader, risk_params, threshold=2.0):
     # Load price history
