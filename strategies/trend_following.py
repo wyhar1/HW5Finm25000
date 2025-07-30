@@ -21,9 +21,6 @@ from market_data_loader import MarketDataLoader
 
 
 def run_backtest(symbol, market_loader, risk_params, short_win=5, long_win=25):
-    """
-    There is some funky business going on here, but I'm not sure what.
-    """
     
     history = market_loader.get_history(symbol)
     signals_df = pd.DataFrame(index=history.index)
