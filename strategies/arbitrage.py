@@ -12,11 +12,13 @@ def run_backtest(symbol1, symbol2, loader, risk_params, threshold=2.0):
     # Load price history
     hist1 = loader.get_history(symbol1)
     hist2 = loader.get_history(symbol2)
+    sqz1 = hist1["last_price"].squeeze()
+    sqz2 = hist2["last_price"].squeeze()
 
     # Align timestamps
     df = pd.DataFrame({
-        "p1": hist1["last_price"],
-        "p2": hist2["last_price"]
+        "p1": sqz1,
+        "p2": sqz2
     }).dropna()
 
     # Hedge ratio via linear regression
@@ -134,3 +136,5 @@ def run_backtest(symbol1, symbol2, loader, risk_params, threshold=2.0):
     }
 
     return df, trades_list, metrics_dict
+
+
