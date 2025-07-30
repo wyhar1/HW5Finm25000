@@ -21,6 +21,9 @@ from market_data_loader import MarketDataLoader
 
 
 def run_backtest(symbol, market_loader, risk_params, short_win=5, long_win=25):
+    """
+    There is some funky business going on here, but I'm not sure what.
+    """
     
     history = market_loader.get_history(symbol)
     signals_df = pd.DataFrame(index=history.index)
@@ -48,7 +51,7 @@ def run_backtest(symbol, market_loader, risk_params, short_win=5, long_win=25):
     ###
     tracker = PositionTracker(starting_cash = starting_cash_var)
     trades_list = []
-    
+
     
     for _, row in signals_df.iterrows():
         sig = row['signal']
@@ -79,13 +82,14 @@ def run_backtest(symbol, market_loader, risk_params, short_win=5, long_win=25):
             price= float(history.loc[row['timestamp'], 'last_price'].squeeze()),
             timestamp=row['timestamp']
         )
+        ###CHAT GPT SUGGESTED, CORRECTING COUNTER ORDERS GETTING PROCESSED IN TRACKER###
+        counter_order.id = f"FAKE-{uuid.uuid4()}"
+        ##########
+        
         ack2 = oms.new_order(counter_order)
         ack = oms.new_order(order)
         book.add_order(counter_order)
         reports = book.add_order(order)
-        ###CHAT GPT SUGGESTED, CORRECTING COUNTER ORDERS GETTING PROCESSED IN TRACKER###
-        counter_order.id = f"FAKE-{uuid.uuid4()}"
-        ##########
 
         
         for rpt in reports:
@@ -110,6 +114,6 @@ def run_backtest(symbol, market_loader, risk_params, short_win=5, long_win=25):
     return signals_df, trades_list, metrics_dict
 
 rp = risk_params()
-loader = MarketDataLoader(interval="1d", period="5y")
+loader = MarketDataLoader(interval="1h", period="1y")
 signals, trades, metrics = run_backtest("CMPS", loader, rp)
 print(metrics)
