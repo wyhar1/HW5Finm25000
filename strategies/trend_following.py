@@ -110,7 +110,3 @@ def run_backtest(symbol, market_loader, risk_params, short_win=5, long_win=25):
     }
     return signals_df, trades_list, metrics_dict
 
-rp = risk_params()
-loader = MarketDataLoader(interval="1h", period="1y")
-signals, trades, metrics = run_backtest("CMPS", loader, rp)
-print(metrics)
